@@ -5,7 +5,6 @@ module.exports = app => {
   app.post('/signin', app.api.auth.signin)
   app.post('/validateToken', app.api.auth.validateToken)
 
-
   app.route('/users')
     .all(app.config.passport.authenticate())
     .post(admin(app.api.user.save))
@@ -15,6 +14,7 @@ module.exports = app => {
     .all(app.config.passport.authenticate())
     .put(admin(app.api.user.save))
     .get(admin(app.api.user.getById))
+    .delete(admin(app.api.user.remove))
 
   app.route('/categories')
     .all(app.config.passport.authenticate())

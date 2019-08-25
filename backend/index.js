@@ -13,6 +13,7 @@ consign()
   .then('./config/middlewares.js')
   .then('./api/validator.js')
   .then('./api')
+  .then('./schedule')
   // /api carrega TODOS arquivos da pasta
   .then('./config/routes.js')
   .into(app)
