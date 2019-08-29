@@ -89,7 +89,7 @@ export default {
       users: [],
       fields: [
         { key: "id", label: "Código", sortable: true },
-        { key: "id", label: "Nome", sortable: true },
+        { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "E-Mail", sortable: true },
         {
           key: "admin",
@@ -115,6 +115,7 @@ export default {
       axios[method](`${baseApiUrl}/users${id}`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();
+          this.reset()
         })
         .catch(showError);
       this.loadUsers();
