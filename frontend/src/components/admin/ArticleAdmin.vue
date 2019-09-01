@@ -1,6 +1,6 @@
 <template>
   <div class="article-admin">
-    <b-form class="p-3" >
+    <b-form class="p-3">
       <input type="hidden" id="article-id" v-model="article.id" />
       <b-row>
         <b-col xs="12">
@@ -44,7 +44,11 @@
       <b-row>
         <b-col xs="12">
           <b-form-group label="Categoria:" label-for="article-category">
-            <b-form-select v-model="article.categoryId" :options="categories" id="article-category" />
+            <b-form-select
+              v-model="article.categoryId"
+              :options="categories"
+              id="article-category"
+            />
           </b-form-group>
         </b-col>
       </b-row>
@@ -84,6 +88,15 @@
         </b-table>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col>
+        <b-pagination 
+          size="md" 
+          v-model="page" 
+          :total-rows="count" 
+          :per-page="limit" />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -116,7 +129,7 @@ export default {
 
   methods: {
     async loadArticles() {
-      const url = `${baseApiUrl}/articles`;
+      const url = `${baseApiUrl}/articles?page=${this.page}`;
       const response = await axios.get(url);
 
       this.articles = response.data.data;
@@ -128,9 +141,9 @@ export default {
       this.mode = mode;
       // this.article = { ...article };
 
-      await axios
-        .get(`${baseApiUrl}/articles/${article.id}`)
-        .then(response => { this.article = response.data})
+      await axios.get(`${baseApiUrl}/articles/${article.id}`).then(response => {
+        this.article = response.data;
+      });
     },
 
     save() {
@@ -157,10 +170,10 @@ export default {
 
     reset() {
       this.mode = "save";
-      (this.categories = []),
-        (this.article = {}),
-        (this.users = []),
-        this.loadArticles();
+      this.article = {};
+      this.loadArticles();
+      this.loadUsers();
+      this.loadCategories();
     },
 
     async loadCategories() {
@@ -177,6 +190,12 @@ export default {
       this.users = response.data.map(user => {
         return { value: user.id, text: `${user.name} - ${user.email}` };
       });
+    }
+  },
+
+  watch: {
+    page() {
+      this.loadArticles()
     }
   },
 

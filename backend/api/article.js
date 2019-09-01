@@ -48,7 +48,7 @@ module.exports = app => {
     }
   }
 
-  const limit = 10 // used for pagination
+  const limit = 3 // used for pagination
   const get = async (req, res) => {
     const page = req.query.page || 1
 
@@ -73,7 +73,7 @@ module.exports = app => {
       .catch(err => res.status(500).send(err))
   }
 
-  const getByCategory = async (res, req) => {
+  const getByCategory = async (req, res) => {
     const categoryId = req.params.id
     const page = req.query.page || 1
     const categories = await app.db.raw(queries.categoryWithChildren, categoryId)

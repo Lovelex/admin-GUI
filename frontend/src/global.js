@@ -1,4 +1,6 @@
 import vue from 'vue'
+
+export const userKey = '__knowledge_user'
 export const baseApiUrl = 'http://127.0.0.1:3000'
 
 export function showError(e) {
@@ -10,3 +12,5 @@ export function showError(e) {
     vue.toasted.global.defaultError()
   }
 }
+
+export default { userKey, baseApiUrl, showError }
